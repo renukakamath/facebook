@@ -1,0 +1,40 @@
+
+{% include 'admin_header.html' %}
+<h1>Registered Users</h1>
+
+    {% for i in data['user'] %}
+    <div class="u-view" style="margin-top: 30px;">
+    <div class="row" >
+        <div class="m" >
+            <img src="/static/images/pngfind.com-avatar-png-2387252.png" alt="" style="border-radius: 200px;">
+            <div style="padding-top: 40px;">
+                <label for="">UserName:{{i['fname']}}{{i['lname']}}</label>
+                <label for="">Place:{{i['place']}}</label>
+                <label for="">Phone:{{i['phone']}}</label>
+                <label for="">Email:{{i['email']}}</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endfor %}
+
+
+{% include 'footer.html' %}
+
+<style>
+    .u-view{
+        width: 900px;
+        ;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    }   
+    .m{
+        height: 200px;
+        width: 180px;
+        display: flex;
+        gap: 30px;
+        padding-left: 50px;
+       
+        
+    }
+</style>

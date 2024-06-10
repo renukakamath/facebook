@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter Clone - Final</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- sidebar starts -->
+ 
+
+    <div class="sidebar" >
+      <i class="fab fa-computer"></i>
+      <div class="sidebarOption active">
+        <span class="material-icons"> home </span>
+        <a href="adhome" style="text-decoration: none;"> <h2>Home</h2></a>
+      </div>
+
+      <div class="sidebarOption">
+            <span class="material-icons"> search </span>
+            <a href="viewpost" style="text-decoration: none;"> <h2>Explore</h2></a>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> perm_identity </span>
+        <a href="view_user" style="text-decoration: none;"> <h2>View Users</h2></a>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> mail_outline </span>
+        <a href="viewcomplaint" style="text-decoration: none;"> <h2>Complaints</h2></a>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons">  </span>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons">  </span>
+        <h2></h2>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons">  </span>
+        <h2></h2>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons">  </span>
+        <h2></h2>
+      </div>
+      <button class=""></button>
+    </div>
+    <!-- sidebar ends -->
+
+    <!-- feed starts -->
+    <div class="feed">
+      <div class="feed__header">
+        <h2>Home</h2>
+      </div>
+
+      <!-- tweetbox starts -->
+      <!-- <div class="tweetBox">
+        <form>
+          <div class="tweetbox__input">
+            <img
+              src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+              alt=""
+            />
+            <input type="text" placeholder="What's happening?" />
+          </div>
+          <button class="tweetBox__tweetButton">Tweet</button>
+        </form>
+      </div> -->
+      <!-- tweetbox ends -->
+
+      <!-- post starts -->
+      {% for i in data['post'] %}
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+            alt=""
+          />
+        </div>
+
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                {{i['fname']}}{{i['lname']}}
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@
+                  {{i['fname']}}{{i['lname']}}</span
+                >
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>Shared a Wonderfull Memmory</p>
+            </div>
+          </div>
+          <img
+            src="/{{i['post']}}"
+            alt=""
+          />
+          <div class="post__footer">
+         <span onclick="likeSec('{{ loop.index }}')" style="cursor: pointer;" id="like-sec{{ loop.index }}"  class="material-icons" > favorite </span>
+
+
+            <span style="cursor: pointer;padding-right: 30px;" onclick="chatSec('{{loop.index}}')" class="material-icons"> comment </span>
+
+
+
+            <span class="material-icons" style="padding-right: 60px;cursor: pointer;"> upload </span>
+          </div>
+        </div>
+      </div>
+      <div  class="chat-sec {{loop.index}}" id="chat-sec{{loop.index}}">
+        {% for r in data['cmt'] %}
+            {% if i['post_id']==r['post_id'] %}
+           <div  id="hidesec" style="padding-left: 100px;">
+            <div class="post__headerText">
+            <div style="display: flex; gap: 20px;">
+                
+                  <span class="post__headerSpecial">
+                    <span class="material-icons post__badge"> verified </span>@
+                    {{r['fname']}}{{r['lname']}}::</span>
+                
+                    <p>{{r['comment']}}</p>
+                  
+                
+            </div>
+              </div>
+           </div>
+           {% endif %}
+           {% endfor %}
+
+      </div>
+      {% endfor %}
+      <style>
+
+
+            .chat-sec{
+                width: 100%;
+                min-height: 0px;
+                background-color: rgba(204, 200, 200, 0.3);   
+                opacity: 0;
+                display: none;
+                transition: all .9s;
+            }
+
+        .new-chat{
+            min-height: 70px;
+            opacity: 1;
+            display: block;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 5px 0px;
+            transition: all .9s;
+        }
+    </style>
+
+        <script>
+            function chatSec(char){
+        
+            
+                document.getElementById("chat-sec"+char).classList.toggle("new-chat")
+                // document.getElementById("hidesec").style.background="red"
+                // document.getElementById("hidesec").style.flexDirection="column"          
+            }
+
+            const likeSec = (char) => {
+                
+                if(document.getElementById("like-sec"+char).style.color == "red"){
+
+                    var like =  document.getElementById("like-sec"+char).style.color="black"
+                }else{
+                    var like =  document.getElementById("like-sec"+char).style.color="red"
+                }
+                
+            }
+        </script>
+
+      
+      <!-- post ends -->
+
+      <!-- post starts -->
+      <!-- <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+            alt=""
+          />
+        </div>
+
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                Somanath Goudar
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@somanathg</span
+                >
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+          </div>
+          <img
+            src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
+            alt=""
+          />
+          <div class="post__footer">
+            <span class="material-icons"> repeat </span>
+            <span class="material-icons"> favorite_border </span>
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div> -->
+      <!-- post ends -->
+    </div>
+    <!-- feed ends -->
+
+    <!-- widgets starts -->
+    <div class="widgets">
+      <div class="widgets__input">
+        <span class="material-icons widgets__searchIcon">  </span>
+        <input type="text" disabled placeholder=" " />
+      </div>
+
+      <div class="widgets__widgetContainer" style="width: 400px;height: 400px;">
+        <h2>What's happening?</h2>
+
+
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+            alt=""
+          />
+        </div>
+
+        <div class="post__body">
+          <div class="post__header" style="border-radius: 20px;">
+            <div class="post__headerText">
+              <h3>
+                {{data['post'][0]['fname']}}{{data['post'][0]['lname']}}
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@
+                  {{data['post'][0]['fname']}}{{data['post'][0]['lname']}}</span
+                >
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>Shared a Wonderfull Memmory</p>
+            </div>
+          </div>
+          <div style="border-radius: 20px;">
+          <img
+            src="/{{data['post'][0]['post']}}" style="width: 250px;height: 280px;padding-bottom: 60px;"
+            alt=""
+          />
+        </div>
+          <div class="post__footer">
+        
+
+
+
+          </div>
+        </div>
+      </div>
+      
+    
+        <!-- <blockquote class="twitter-tweet">
+          <p lang="en" dir="ltr">
+            Sunsets don&#39;t get much better than this one over
+            <a href="https://twitter.com/GrandTetonNPS?ref_src=twsrc%5Etfw">@GrandTetonNPS</a>.
+            <a href="https://twitter.com/hashtag/nature?src=hash&amp;ref_src=twsrc%5Etfw"
+              >#nature</a
+            >
+            <a href="https://twitter.com/hashtag/sunset?src=hash&amp;ref_src=twsrc%5Etfw"
+              >#sunset</a
+            >
+            <a href="http://t.co/YuKy2rcjyU">pic.twitter.com/YuKy2rcjyU</a>
+          </p>
+          &mdash; US Department of the Interior (@Interior)
+          <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw"
+            >May 5, 2014</a
+          >
+        </blockquote> -->
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+    <!-- widgets ends -->
+  </body>
+</html>

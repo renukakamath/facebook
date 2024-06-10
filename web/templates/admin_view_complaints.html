@@ -1,0 +1,62 @@
+{% include 'admin_header.html' %}
+<form action="" method="post">
+    <center>
+
+    {% if data['viewc1'] %}
+    <h2>Send Replay</h2>
+        <div class="u-view">
+            <div style="width: 300px; display: flex;padding-top: 20px;">
+                <label for="" style="padding-top: 5px;">Reply</label>
+                <input type="text" name="reply" class="form-control" style="margin-left: 10px;">
+            </div>
+            <div style="padding-bottom: 20px;margin-top: 20px;">
+                <input type="submit" class="btn btn-success" name="send">
+            </div>
+        </div>
+    {% else %}
+    <h2>Complaints</h2>
+        <table class="table" style="width: 600px;">
+            <tr>
+                <th>Si</th>
+                <th>Usre Name</th>
+                <th>Complaint</th>
+                <th>Reply</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            {% for r in data['viewc'] %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{r['fname']}}{{r['lname']}}</td>
+                <td>{{r['complaint']}}</td>
+                <td>{{r['reply']}}</td>
+                <td>{{r['date']}}</td>
+                {% if r['reply']=='pending' %}
+                <td><a href="?id={{r['complaint_id']}}" class="btn btn-success">Send Reply</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %} 
+    </center>
+</form>
+
+{% include 'footer.html' %}
+
+
+<style>
+    .u-view{
+        width: 900px;
+        ;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    }   
+    .m{
+        height: 200px;
+        width: 180px;
+        display: flex;
+        gap: 30px;
+        padding-left: 50px;
+       
+        
+    }
+</style>
